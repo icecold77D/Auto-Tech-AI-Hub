@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto-Tech AI Hub｜車電研發與品管 AI 知識中樞</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--navy:#10243a;--navy2:#173954;--cyan:#42c5d8;--silver:#dce5ed}
+body{background:#eef3f7;color:#172b3d;font-family:Inter,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.glass{background:rgba(255,255,255,.94);border:1px solid #dce5ed;box-shadow:0 8px 28px rgba(16,36,58,.06)}
+.sidebar{background:linear-gradient(180deg,#10243a,#173954);color:#e8f1f7}
+.navitem{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;color:#c9d8e4;cursor:pointer;transition:.2s;font-size:13px}
+.navitem:hover,.navitem.active{background:rgba(66,197,216,.16);color:#fff}
+.navitem.active{border-left:3px solid var(--cyan)}
+.btn-primary{background:#173954;color:white}.btn-primary:hover{background:#245879}
+.btn-cyan{background:#dff7fa;color:#087c8d;border:1px solid #b5e9ef}
+.tag{font-size:11px;padding:3px 8px;border-radius:99px;background:#e9f1f7;color:#36566e}
+.field{width:100%;border:1px solid #cbd8e2;border-radius:9px;padding:10px 12px;background:white;outline:none;font-size:13px}
+.field:focus{border-color:#36aabd;box-shadow:0 0 0 3px rgba(54,170,189,.12)}
+.modal{display:none;position:fixed;inset:0;background:rgba(7,20,33,.62);z-index:50;align-items:center;justify-content:center;padding:16px}
+.modal.show{display:flex}
+.toast{position:fixed;right:22px;bottom:22px;background:#10243a;color:white;padding:12px 18px;border-radius:10px;z-index:80;box-shadow:0 10px 30px #10243a44;display:none}
+.dropzone{border:2px dashed #b9cbd8;border-radius:12px;background:#f7fafc}
+.output{white-space:pre-wrap;line-height:1.8;font-size:13px}
+@media(max-width:900px){.layout{grid-template-columns:1fr!important}.sidebar{border-radius:16px}.side-tree{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.main-grid{grid-template-columns:1fr!important}}
+</style>
+</head>
+<body>
+<header class="bg-[#10243a] text-white border-b border-cyan-400/30">
+ <div class="max-w-[1500px] mx-auto px-5 py-4 flex flex-wrap items-center justify-between gap-3">
+  <div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl bg-cyan-400/15 border border-cyan-300/30 flex items-center justify-center text-cyan-300 text-xl"><i class="fa-solid fa-microchip"></i></div><div><div class="font-bold tracking-wide text-lg">車電研發與品管 AI 知識中樞</div><div class="text-xs text-slate-300 tracking-[.18em]">AUTO-TECH AI HUB <span class="text-cyan-300 ml-2">MVP DEMO</span></div></div></div>
+  <div class="flex items-center gap-3 text-xs text-slate-300"><span class="hidden sm:inline"><i class="fa-solid fa-shield-halved text-cyan-300 mr-1"></i>企業內部知識管理示範環境</span><span class="px-3 py-2 rounded-lg bg-white/10"><i class="fa-solid fa-circle text-emerald-400 text-[8px] mr-2"></i>系統運作中</span></div>
+ </div>
+</header>
+<main class="max-w-[1500px] mx-auto p-4 md:p-6">
+ <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+  <div class="glass rounded-2xl p-5 flex items-center justify-between"><div><div class="text-xs text-slate-500 mb-2">已沉澱技術文件數</div><div class="text-3xl font-bold text-[#173954]" id="docCount">14</div><div class="text-xs text-emerald-600 mt-1"><i class="fa-solid fa-arrow-trend-up mr-1"></i>持續累積中</div></div><div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl"><i class="fa-solid fa-folder-open"></i></div></div>
+  <div class="glass rounded-2xl p-5 flex items-center justify-between"><div><div class="text-xs text-slate-500 mb-2">新人培訓週期縮短（模擬）</div><div class="text-3xl font-bold text-[#173954]">30<span class="text-lg">%</span></div><div class="text-xs text-slate-400 mt-1">目標值・需試辦驗證</div></div><div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center text-xl"><i class="fa-solid fa-user-graduate"></i></div></div>
+  <div class="glass rounded-2xl p-5 flex items-center justify-between"><div><div class="text-xs text-slate-500 mb-2">每月節省行政工時（模擬）</div><div class="text-3xl font-bold text-[#173954]"><span id="hoursSaved">80</span><span class="text-lg"> 小時</span></div><div class="text-xs text-slate-400 mt-1">試辦估算值・非實測績效</div></div><div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl"><i class="fa-solid fa-stopwatch"></i></div></div>
+ </section>
+ <div class="layout grid grid-cols-[255px_minmax(0,1fr)] gap-5">
+  <aside class="sidebar rounded-2xl p-4 h-fit">
+   <div class="flex items-center justify-between mb-3"><div class="text-sm font-semibold"><i class="fa-solid fa-diagram-project text-cyan-300 mr-2"></i>組織領域導覽</div><span class="text-[10px] text-slate-400">7 DOMAINS</span></div>
+   <button class="navitem active w-full" data-filter="全部"><i class="fa-solid fa-layer-group w-4"></i>全部技術資料 <span class="ml-auto text-xs" id="allCount">14</span></button>
+   <div class="border-t border-white/10 my-3"></div>
+   <div class="side-tree space-y-1" id="departmentNav"></div>
+   <div class="mt-5 p-3 rounded-xl bg-white/5 border border-white/10"><div class="text-xs font-semibold text-cyan-200 mb-1"><i class="fa-solid fa-lightbulb mr-1"></i>知識管理提示</div><p class="text-[11px] leading-5 text-slate-300">上傳資料後，請由文件負責人確認技術內容、版本與適用車型，再納入正式知識庫。</p></div>
+  </aside>
+  <section class="min-w-0">
+   <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+    <div><div class="text-xl font-bold text-[#10243a]" id="listTitle">技術知識資料庫</div><div class="text-xs text-slate-500 mt-1">依部門分類瀏覽已沉澱的技術文件與實務案例</div></div>
+    <button onclick="openModal()" class="btn-primary px-4 py-2.5 rounded-xl text-sm font-semibold shadow-sm"><i class="fa-solid fa-cloud-arrow-up mr-2"></i>新增／上傳技術資料</button>
+   </div>
+   <div class="main-grid grid grid-cols-[minmax(0,1.35fr)_minmax(300px,.85fr)] gap-4">
+    <div class="glass rounded-2xl p-4">
+     <div class="flex flex-wrap items-center justify-between gap-2 mb-4"><div class="font-semibold text-sm">技術文件清單 <span class="text-slate-400 font-normal ml-1" id="resultCount"></span></div><div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i><input id="searchInput" class="field pl-8 py-2 w-52" placeholder="搜尋標題、內容或標籤..." oninput="renderDocs()"></div></div>
+     <div id="docList" class="space-y-3"></div>
+    </div>
+    <div class="glass rounded-2xl p-4 h-fit">
+     <div class="flex items-center gap-2 mb-1"><div class="w-8 h-8 rounded-lg bg-cyan-50 text-cyan-700 flex items-center justify-center"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="font-semibold text-sm">AI 效率小工具生成器</div></div>
+     <p class="text-xs text-slate-500 mb-4">選擇工作領域，即時產生培訓、檢核與行政文件初稿。</p>
+     <label class="text-xs font-semibold text-slate-600">指定部門</label><select id="toolDept" class="field mt-1 mb-3"></select>
+     <div class="space-y-2">
+      <button onclick="generateTool('quiz')" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50/50 transition"><div class="flex gap-3"><span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"><i class="fa-solid fa-circle-question"></i></span><span><b class="text-xs">小工具 A｜新人培訓隨堂測驗</b><small class="block text-[11px] text-slate-500 mt-1">自動生成 3 題選擇題與解析</small></span></div></button>
+      <button onclick="generateTool('check')" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50/50 transition"><div class="flex gap-3"><span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center"><i class="fa-solid fa-list-check"></i></span><span><b class="text-xs">小工具 B｜標準作業檢核表</b><small class="block text-[11px] text-slate-500 mt-1">產生測試前／作業中確認項目</small></span></div></button>
+      <button onclick="generateTool('report')" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50/50 transition"><div class="flex gap-3"><span class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center"><i class="fa-solid fa-file-lines"></i></span><span><b class="text-xs">小工具 C｜行政週報／異常報告</b><small class="block text-[11px] text-slate-500 mt-1">整理進度、風險與後續行動</small></span></div></button>
+     </div>
+     <div id="toolResult" class="hidden mt-4 border border-cyan-100 bg-[#f5fbfc] rounded-xl p-3"><div class="flex justify-between items-center gap-2 mb-2"><b class="text-xs text-[#173954]" id="toolResultTitle">生成結果</b><button onclick="copyOutput()" class="text-xs text-cyan-800 hover:underline"><i class="fa-regular fa-copy mr-1"></i>一鍵複製</button></div><div id="toolOutput" class="output text-slate-700"></div></div>
+    </div>
+   </div>
+   <div class="mt-4 rounded-xl bg-[#e5edf3] border border-[#d4e0e9] px-4 py-3 text-[11px] text-slate-600 flex gap-2"><i class="fa-solid fa-circle-info text-[#39708e] mt-0.5"></i><span>本頁為競賽展示用 MVP。AI 潤飾、PPT 摘要及工具生成採前端規則模擬，未連接企業文件伺服器或大型語言模型；正式導入須串接經核准的模型、權限與稽核機制。</span></div>
+  </section>
+ </div>
+</main>
+
+<div id="uploadModal" class="modal">
+ <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl">
+  <div class="bg-[#10243a] text-white px-6 py-4 flex justify-between items-center rounded-t-2xl"><div><div class="font-bold"><i class="fa-solid fa-file-circle-plus text-cyan-300 mr-2"></i>新增／上傳技術資料</div><div class="text-xs text-slate-300 mt-1">建立可搜尋、可追溯的標準化知識紀錄</div></div><button onclick="closeModal()" class="text-slate-300 hover:text-white text-xl">&times;</button></div>
+  <form id="uploadForm" class="p-6 space-y-4">
+   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="text-xs font-semibold">部門別 <span class="text-red-500">*</span></label><select id="newDept" required class="field mt-1"></select></div><div><label class="text-xs font-semibold">工作種類標籤</label><select id="newType" class="field mt-1"><option>技術規範</option><option>測試報告</option><option>SOP 教學</option><option>異常排除</option></select></div></div>
+   <div><label class="text-xs font-semibold">文件標題 <span class="text-red-500">*</span></label><input id="newTitle" required class="field mt-1" placeholder="例如：CAN FD 通訊異常排查流程"></div>
+   <div><div class="flex items-center justify-between gap-2"><label class="text-xs font-semibold">詳細內容說明 <span class="text-red-500">*</span></label><button type="button" onclick="polishText()" class="btn-cyan text-xs px-3 py-1.5 rounded-lg font-semibold">✨ AI 自動潤飾與規格化</button></div><textarea id="newDesc" required rows="5" class="field mt-1" placeholder="可先輸入口語紀錄，例如：先確認電源，再看 CAN ID，沒回應就檢查終端電阻..."></textarea><div class="text-[10px] text-slate-400 mt-1">示範功能：將口語描述整理為目的、前置條件、操作步驟與判定標準。</div></div>
+   <div><label class="text-xs font-semibold">PPT 簡報上傳（.ppt／.pptx）</label><div class="dropzone p-4 mt-1 text-center"><input id="pptFile" type="file" accept=".ppt,.pptx" class="hidden" onchange="fileSelected(this)"><button type="button" onclick="document.getElementById('pptFile').click()" class="text-sm text-[#245879] font-semibold"><i class="fa-solid fa-cloud-arrow-up mr-2"></i>選擇簡報檔案</button><p class="text-[11px] text-slate-400 mt-1">亦可拖曳檔案至此區（展示版僅讀取檔名）</p><div id="fileName" class="text-xs text-emerald-700 mt-2"></div></div><div class="flex flex-wrap items-center gap-3 mt-2"><button type="button" onclick="summarizePpt()" class="btn-cyan text-xs px-3 py-2 rounded-lg">✨ AI 自動提取 PPT 摘要</button><span id="pptSummary" class="text-xs text-slate-500"></span></div></div>
+   <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg border text-sm">取消</button><button type="submit" class="btn-primary px-5 py-2 rounded-lg text-sm font-semibold"><i class="fa-solid fa-box-archive mr-2"></i>發布並歸檔</button></div>
+  </form>
+ </div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+const departments=[
+ {name:"ECU 軟體開發",icon:"fa-code",color:"blue"},
+ {name:"ECU 硬體設計",icon:"fa-microchip",color:"violet"},
+ {name:"工程監察",icon:"fa-clipboard-check",color:"amber"},
+ {name:"專案承辦",icon:"fa-diagram-project",color:"cyan"},
+ {name:"HIL 硬體在環測試",icon:"fa-gauge-high",color:"indigo"},
+ {name:"FQC 最終品質檢驗",icon:"fa-shield-halved",color:"emerald"},
+ {name:"CAN 總線測試",icon:"fa-network-wired",color:"sky"}
+];
+let docs=[
+{dept:0,type:"技術規範",title:"AUTOSAR Classic ECU 軟體架構與 BSW 配置原則",desc:"說明 ECU 軟體分層、Application／RTE／BSW 架構及 MCAL、通訊堆疊等模組配置。專案導入時應依 ECU 資源、車廠需求與供應商交付規範確認版本相容性。",ppt:"ECU_AUTOSAR架構配置規範_R02.pptx",tags:["AUTOSAR","BSW","軟體架構"],date:"2026-10-08"},
+{dept:0,type:"SOP 教學",title:"Bootloader 韌體更新與失敗復原作業流程",desc:"涵蓋更新前電源穩定性確認、診斷連線、Programming Session、Security Access、資料傳輸、完整性驗證及更新後重啟確認。失敗時依核准復原程序處理。",ppt:"Bootloader刷寫與復原SOP_R03.pptx",tags:["Bootloader","UDS","Flash"],date:"2026-09-21"},
+{dept:1,type:"技術規範",title:"車規級 PCB 電源輸入與保護電路設計檢核",desc:"檢查電源輸入範圍、反接保護、Load Dump／瞬態抑制、過流保護、接地回流路徑及關鍵電源網路佈局。元件選型須確認車用溫度等級與降額設計。",ppt:"PCBA電源保護設計檢核_R01.pptx",tags:["PCBA","電源管理","車規"],date:"2026-08-14"},
+{dept:1,type:"異常排除",title:"ECU EMC／EMI 輻射與傳導干擾改善案例",desc:"彙整測試頻段、異常峰值、線束配置、接地阻抗與濾波元件調整紀錄。改善措施須透過預掃描及正式測試確認，不以單一經驗值取代驗證。",ppt:"EMC_EMI改善案例彙整_R04.pptx",tags:["EMC","EMI","整改"],date:"2026-07-30"},
+{dept:2,type:"技術規範",title:"V-Model 開發流程與設計驗證稽核要點",desc:"依需求分析、系統設計、軟硬體設計、單元驗證、整合驗證及系統驗證建立對應關係。稽核確認需求可追溯性、測試證據、問題閉環與文件版次。",ppt:"VModel開發流程稽核表_R02.pptx",tags:["V-Model","稽核","驗證"],date:"2026-09-02"},
+{dept:2,type:"SOP 教學",title:"專案開發里程碑與 ECN 設計變更管控",desc:"追蹤樣件、設計凍結、DV／PV、試產與量產移轉節點。設計變更需記錄變更原因、影響分析、驗證需求、核准狀態及受影響文件。",ppt:"里程碑與ECN追蹤作業_R01.pptx",tags:["里程碑","ECN","變更管理"],date:"2026-08-19"},
+{dept:3,type:"SOP 教學",title:"客戶需求規格書 SOR 拆解與部門責任分派",desc:"將客戶需求拆解為系統、軟體、硬體、測試及品質項目，建立需求編號、責任單位、驗證方式、交付證據與未決議題追蹤欄位。",ppt:"SOR需求拆解與追蹤範例_R02.pptx",tags:["SOR","需求管理","跨部門"],date:"2026-10-02"},
+{dept:3,type:"技術規範",title:"供應商報價比較與技術澄清紀錄管理",desc:"整合報價條件、規格符合性、交期、模具費、驗證成本及風險差異。技術澄清事項需記錄提問、供應商回覆、責任人與結案日期。",ppt:"供應商技術澄清與報價比較_R01.pptx",tags:["供應商","報價","技術澄清"],date:"2026-07-18"},
+{dept:4,type:"測試報告",title:"HIL 測試台架建立與 I/O 訊號映射確認",desc:"建立 DUT、電源、負載模擬、訊號調理與即時模擬平台連接關係。測試前確認 I/O Mapping、量測範圍、接地、通道校正及安全互鎖。",ppt:"HIL台架建置與IOMapping_R03.pptx",tags:["HIL","I/O","dSPACE／NI"],date:"2026-09-16"},
+{dept:4,type:"測試報告",title:"Fault Injection 故障注入與自動化測試案例",desc:"針對開路、短路、訊號超界、通訊中斷等情境設計故障注入。記錄觸發條件、預期反應、實際結果、復歸條件與測試證據。",ppt:"HIL_FaultInjection測試案例_R02.pptx",tags:["Fault Injection","Test Script","驗證"],date:"2026-08-27"},
+{dept:5,type:"技術規範",title:"FQC 下線前全功能電檢與判定標準",desc:"依檢驗規範確認電源啟動、顯示、指示燈、按鍵、通訊與診斷功能。測試設備、軟體版次、測試條件及判定結果須完整記錄。",ppt:"FQC下線全功能電檢規範_R05.pptx",tags:["FQC","電檢","功能驗證"],date:"2026-10-11"},
+{dept:5,type:"異常排除",title:"外觀／機構尺寸抽檢與不良品 8D 分析",desc:"依圖面與檢驗計畫確認外觀缺陷、關鍵尺寸及抽樣結果。不良品依問題描述、圍堵措施、根因分析、矯正措施與效果驗證建立 8D 紀錄。",ppt:"外觀尺寸抽檢與8D案例_R02.pptx",tags:["8D","外觀檢驗","尺寸"],date:"2026-09-05"},
+{dept:6,type:"技術規範",title:"CAN／CAN-FD 通訊矩陣與 DBC 訊號解析",desc:"確認 CAN ID、DLC、週期、Byte Order、Factor、Offset、單位及有效值範圍。DBC 版次需與 ECU 軟體及測試環境一致，避免訊號定義不一致。",ppt:"CAN_CANFD_DBC解析規範_R03.pptx",tags:["CAN-FD","DBC","通訊矩陣"],date:"2026-10-06"},
+{dept:6,type:"SOP 教學",title:"UDS 診斷服務與 ISO-TP 多幀通訊測試",desc:"涵蓋 Diagnostic Session Control、ReadDataByIdentifier、Security Access、Routine Control 與 ISO-TP Flow Control。需確認 Request／Response ID、P2／P2* 時間及 NRC 判讀。",ppt:"UDS_ISOTP診斷測試教學_R04.pptx",tags:["UDS","ISO-TP","CANoe"],date:"2026-09-28"}
+];
+let currentFilter="全部";
+const $=id=>document.getElementById(id);
+function init(){
+ $("departmentNav").innerHTML=departments.map((d,i)=>`<button class="navitem w-full" data-filter="${i}" onclick="setFilter('${i}')"><i class="fa-solid ${d.icon} w-4"></i><span>${d.name}</span><span class="ml-auto text-[10px]">${docs.filter(x=>x.dept===i).length}</span></button>`).join("");
+ const opts=departments.map((d,i)=>`<option value="${i}">${d.name}</option>`).join("");
+ $("newDept").innerHTML=opts;$("toolDept").innerHTML=opts;
+ renderDocs();updateStats();
+}
+function setFilter(f){currentFilter=f;$("departmentNav").querySelectorAll(".navitem").forEach(b=>b.classList.toggle("active",b.dataset.filter===f));$("listTitle").textContent=f==="全部"?"技術知識資料庫":departments[+f].name+"｜技術資料";renderDocs();}
+function renderDocs(){
+ const q=$("searchInput").value.trim().toLowerCase();
+ const list=docs.filter(d=>(currentFilter==="全部"||d.dept===+currentFilter)&&(!q||[d.title,d.desc,d.type,d.ppt,...d.tags].join(" ").toLowerCase().includes(q)));
+ $("resultCount").textContent=`(${list.length} 筆)`;$("allCount").textContent=docs.length;
+ $("docList").innerHTML=list.length?list.map(d=>`<article class="border border-slate-200 rounded-xl p-4 hover:border-cyan-300 transition"><div class="flex flex-wrap items-center justify-between gap-2 mb-2"><div class="flex gap-2 items-center"><span class="tag">${departments[d.dept].name}</span><span class="tag">${d.type}</span></div><span class="text-[10px] text-slate-400">${d.date}</span></div><h3 class="font-semibold text-sm text-[#173954] mb-2">${esc(d.title)}</h3><p class="text-xs text-slate-600 leading-6">${esc(d.desc)}</p><div class="flex flex-wrap gap-1.5 mt-3">${d.tags.map(t=>`<span class="text-[10px] text-cyan-800 bg-cyan-50 px-2 py-1 rounded-md"># ${esc(t)}</span>`).join("")}</div><div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-[11px] text-slate-500"><i class="fa-regular fa-file-powerpoint text-orange-500"></i><span>${esc(d.ppt||"尚未附加簡報")}</span><span class="ml-auto text-emerald-700"><i class="fa-solid fa-circle-check mr-1"></i>已歸檔</span></div></article>`).join(""):`<div class="text-center py-12 text-slate-400"><i class="fa-regular fa-folder-open text-3xl mb-3"></i><p class="text-sm">找不到符合條件的資料</p></div>`;
+ updateStats();
+}
+function updateStats(){$("docCount").textContent=docs.length;$("allCount").textContent=docs.length;$("departmentNav").querySelectorAll("[data-filter]").forEach(b=>{if(b.dataset.filter!=="全部")b.lastElementChild.textContent=docs.filter(d=>d.dept===+b.dataset.filter).length;});}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function openModal(){$("uploadModal").classList.add("show");}
+function closeModal(){$("uploadModal").classList.remove("show");}
+function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2600);}
+function polishText(){
+ const raw=$("newDesc").value.trim();if(!raw){toast("請先輸入內容，再進行 AI 規格化");return;}
+ $("newDesc").value=`【目的】\n建立一致的技術作業與確認方式。\n\n【前置條件】\n1. 確認適用產品、軟硬體版本及測試環境。\n2. 確認相關設備、工具與文件均在有效版次。\n\n【作業步驟】\n${raw.split(/[，,。；;\n]/).filter(Boolean).map((s,i)=>`${i+1}. ${s.trim()}`).join("\n")}\n\n【判定與紀錄】\n1. 依核准規格及測試條件確認結果。\n2. 記錄實際結果、異常現象、日期與負責人。\n3. 異常項目須建立追蹤紀錄並經權責人員確認。\n\n【注意事項】\n本內容為 AI 整理初稿，正式執行前須由文件負責人審核。`;
+ toast("已完成規格化初稿，請確認技術內容");
+}
+function fileSelected(input){const f=input.files[0];$("fileName").textContent=f?`已選擇：${f.name}`:"";$("pptSummary").textContent="";}
+function summarizePpt(){
+ const f=$("pptFile").files[0];if(!f){toast("請先選擇 .ppt 或 .pptx 檔案");return;}
+ $("pptSummary").textContent=`摘要初稿：${f.name}｜將整理簡報目的、技術架構、操作流程、測試條件與結論（展示模擬，未實際解析投影片內容）。`;
+}
+$("uploadForm").addEventListener("submit",e=>{
+ e.preventDefault();const f=$("pptFile").files[0];
+ const item={dept:+$("newDept").value,type:$("newType").value,title:$("newTitle").value.trim(),desc:$("newDesc").value.trim(),ppt:f?f.name:"",tags:[$("newType").value,"新建資料","待審核"],date:new Date().toISOString().slice(0,10)};
+ docs.unshift(item);$("uploadForm").reset();$("fileName").textContent="";$("pptSummary").textContent="";closeModal();setFilter(String(item.dept));toast("資料已新增至部門分類與知識清單");window.scrollTo({top:0,behavior:"smooth"});
+});
+const samples={
+ "ECU 軟體開發":{quiz:[["AUTOSAR Classic 中 RTE 的主要角色為何？",["連接 Application 與基礎軟體服務","提供 ECU 電源保護","量測 CAN 終端電阻"],0,"RTE 負責應用軟體元件與基礎軟體間的通訊抽象。"],["Bootloader 刷寫前優先確認哪項條件？",["車身顏色","電源穩定與通訊條件","儀表亮度"],1,"更新前需確認供電、通訊與適用軟體版本。"],["韌體更新後應確認什麼？",["只確認檔名","只確認畫面亮起","版本、完整性與功能狀態"],2,"需依核准流程確認版本、完整性及更新後功能。"]],check:["確認 ECU 硬體料號與軟體版次","確認電源供應與接地條件","確認診斷通訊及刷寫工具版本","確認更新檔案與校驗資訊","完成更新後讀取版本並執行功能確認"]},
+ "ECU 硬體設計":{quiz:[["車用電源輸入設計需優先考量？",["只考量室溫","工作範圍與瞬態／反接保護","只考量 PCB 顏色"],1,"車載電源環境需考量正常範圍及異常瞬態。"],["PCB 電源迴路佈局應注意？",["回流路徑與電流承載能力","只看絲印","任意縮小線寬"],0,"需考量回流路徑、壓降、溫升及 EMC。"],["EMC 改善後應如何確認？",["直接結案","只修改報告","依測試條件重新驗證"],2,"改善措施須以適當預掃描或正式測試驗證。"]],check:["核對電源規格與元件額定值","確認保護電路與降額設計","檢查關鍵電源線寬及回流路徑","確認接地、屏蔽與濾波配置","保存設計審查及驗證紀錄"]},
+ "工程監察":{quiz:[["V-Model 的核心精神為何？",["需求與驗證活動建立對應","只追蹤成本","只在量產後測試"],0,"V-Model 強調開發階段與對應驗證活動的關聯。"],["ECN 核准前應完成？",["直接修改量產版","影響分析與驗證規劃","刪除舊版紀錄"],1,"設計變更需分析影響範圍並確認驗證需求。"],["里程碑落後時應優先？",["隱藏落後狀態","取消所有測試","確認原因、影響與改善計畫"],2,"進度管理需透明呈現風險及責任行動。"]],check:["確認專案里程碑與基準版計畫","檢查需求追溯與驗證證據","盤點未結案問題及責任人","確認 ECN 影響分析與核准狀態","更新風險、預計完成日及升級事項"]},
+ "專案承辦":{quiz:[["SOR 拆解後最重要的管理資訊為何？",["需求編號、責任人與驗證方式","僅保留客戶名稱","只記錄會議日期"],0,"需求需可追溯至責任單位與驗證證據。"],["供應商技術澄清應保留？",["只有口頭結論","提問、回覆、責任人及結案狀態","僅保留報價總額"],1,"完整紀錄有助於決策追溯與風險管理。"],["會議紀錄應包含？",["只有出席者","只有簡報附件","決議、待辦、負責人與期限"],2,"會議成果應轉成可追蹤的行動項目。"]],check:["確認需求文件版次與適用範圍","拆解需求並指定責任單位","彙整供應商未決技術問題","記錄會議決議、負責人及期限","追蹤待辦事項與逾期風險"]},
+ "HIL 硬體在環測試":{quiz:[["HIL 測試前應優先確認？",["I/O Mapping 與訊號量測範圍","只確認電腦桌布","只確認報告格式"],0,"台架訊號映射及量測範圍是測試有效性的基礎。"],["Fault Injection 的目的為何？",["提高螢幕亮度","驗證故障情境下系統反應","取代所有實車測試"],1,"故障注入用於驗證系統對指定故障情境的反應。"],["測試案例至少應定義？",["檔案顏色","工程師座位","觸發條件、預期結果與實際結果"],2,"測試需具備可重現的條件與判定依據。"]],check:["確認 DUT 料號、軟體版次與接線","確認台架電源、接地及安全互鎖","確認 I/O Mapping 與通道校正","確認測試腳本版本及初始條件","記錄觸發條件、結果、Log 與異常"]},
+ "FQC 最終品質檢驗":{quiz:[["FQC 電檢紀錄應包含？",["只記錄 PASS","產品識別、設備版次、條件與結果","只記錄操作員姓名"],1,"品質紀錄需可追溯產品、設備、條件及檢驗結果。"],["發現不良品後應先？",["混入良品","直接修改判定","隔離並依流程通報"],2,"先進行識別、隔離與通報，避免不良品流出。"],["8D 報告的根因分析應？",["以證據確認根因","只寫人員疏失","直接複製舊案"],0,"根因需透過事實與驗證支持，不能僅憑推測。"]],check:["核對產品料號、序號與工單","確認檢驗規範及設備校驗狀態","依規範執行功能與外觀檢查","記錄 PASS／FAIL 與客觀證據","不良品隔離、通報並追蹤處置"]},
+ "CAN 總線測試":{quiz:[["DBC 中 Factor 與 Offset 用於？",["定義訊號物理值換算","設定 ECU 電源","設定測試人員"],0,"常見換算為物理值 = 原始值 × Factor + Offset。"],["ISO-TP 多幀接收時，Flow Control 用途為？",["修改 CAN ID","控制後續連續幀傳送","清除 DTC"],1,"接收端透過 Flow Control 告知傳送端區塊大小與間隔等資訊。"],["收到 UDS NRC 代表？",["一定是 CAN 線路短路","ECU 已完成服務","ECU 回覆否定回應碼"],2,"NRC 用於指出診斷服務未能依請求成功執行的原因。"]],check:["確認 CAN／CAN-FD Bitrate 與通道","確認 Request／Response CAN ID","確認 DBC 版次、訊號定義及週期","確認診斷 Session 與測試前置條件","檢查 Trace、ISO-TP 多幀及 NRC"]}};
+function generateTool(kind){
+ const dept=departments[+$("toolDept").value].name,s=samples[dept];let out="",title="";
+ if(kind==="quiz"){title="AI 新人培訓隨堂測驗｜"+dept;out=s.quiz.map((q,i)=>`${i+1}. ${q[0]}\n${q[1].map((a,j)=>`${"ABC"[j]}. ${a}`).join("\n")}\n正確答案：${"ABC"[q[2]]}\n解析：${q[3]}`).join("\n\n");}
+ if(kind==="check"){title="AI 標準作業檢核表｜"+dept;out=`作業名稱：${dept} 標準作業確認\n日期：____________　執行人員：____________\n\n${s.check.map((x,i)=>`□ ${i+1}. ${x}`).join("\n")}\n\n異常／備註：\n________________________________________________\n覆核人員：____________　日期：____________\n\n※ 本清單為示範初稿，正式使用前應依部門核准規範修訂。`;}
+ if(kind==="report"){title="AI 行政週報／異常彙整｜"+dept;out=`【${dept} 工作週報】\n期間：____年____月____日 ～ ____年____月____日\n\n一、工作進度\n• 本週完成：完成既定工作項目之執行與紀錄整理。\n• 進行中：持續依專案時程推進，確認相關文件與驗證證據。\n\n二、異常與風險\n• 異常事項：請填入問題現象、發生條件及影響範圍。\n• 初步分析：依測試紀錄與客觀證據確認可能原因，尚待驗證事項應明確標示。\n\n三、待協調事項\n• 跨部門需求：請填入協助單位、需求內容及預計回覆日。\n\n四、下週工作規劃\n• 完成未結案項目追蹤、必要驗證及文件更新。\n\n五、主管需協助決策\n• 請填入需核准資源、時程或風險處置事項。\n\n※ AI 僅產生格式化初稿，請承辦人核對實際進度與數據後發布。`;}
+ $("toolResultTitle").textContent=title;$("toolOutput").textContent=out;$("toolResult").classList.remove("hidden");
+}
+function copyOutput(){const t=$("toolOutput").textContent;navigator.clipboard?.writeText(t).then(()=>toast("已複製生成內容")).catch(()=>fallbackCopy(t));}
+function fallbackCopy(t){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();toast("已複製生成內容");}
+const dz=document.querySelector(".dropzone");
+dz.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("border-cyan-400","bg-cyan-50")});
+dz.addEventListener("dragleave",()=>dz.classList.remove("border-cyan-400","bg-cyan-50"));
+dz.addEventListener("drop",e=>{e.preventDefault();dz.classList.remove("border-cyan-400","bg-cyan-50");const f=e.dataTransfer.files[0];if(f&&/\.(ppt|pptx)$/i.test(f.name)){const dt=new DataTransfer();dt.items.add(f);$("pptFile").files=dt.files;fileSelected($("pptFile"));}else toast("請拖曳 .ppt 或 .pptx 檔案");});
+$("uploadModal").addEventListener("click",e=>{if(e.target===$("uploadModal"))closeModal();});
+init();
+</script>
+</body>
+</html>
